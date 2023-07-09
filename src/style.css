@@ -1,0 +1,58 @@
+.searchBlock{
+    display: inline-block;
+    background-color: #ffcd39;
+    border-radius: 10px;
+    opacity: 0.9;
+    margin-top: 350px;
+    width: 50%;
+    margin-left: 25%;
+    height: 100px;
+}
+.searchInput{
+    width: 50%;
+    margin-left: 5%;
+    height: 45px;
+    border-radius: 5px;
+    text-decoration: none;
+    outline: none;
+    border: none;
+}
+.calendarBlock{
+    display: inline-block;
+    position: absolute;
+    background-color: #fff;
+    height: 45px;
+    margin-top: 27.5px;
+    margin-left: 5%;
+    border-radius: 5px;
+    width: 7%;
+    margin-bottom:155px;
+    color: grey;
+}
+.calendarBlock > p{
+    margin-left: 22%;
+    margin-top: 8%;
+}
+.searchButton{
+    display: inline-block;
+    height: 45px;
+    margin-left: 25%;
+    width: 15%;
+    margin-top: 27.5px;
+}
+.searchButton > button{
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    color: grey;
+    width: 100%;
+    height: 100%;
+}
+body{
+    background: url("img/1674506844_gamerwall-pro-p-krasivie-gori-gruzii-pinterest-1.jpg") no-repeat ;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    max-width: 100%;
+}
