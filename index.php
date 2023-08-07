@@ -1,6 +1,11 @@
 <?php
 require __DIR__ . '/vendor/autoload.php';
-$date = Classes\Calendar::buildMonth(year: 2023,month: 6);
+//$onj2 = new \Classes\finderDateProduct("2023-08-01","2023-08-29");
+/*try {
+    $obj = new \Classes\createDateProduct("sasda","2023-08-12","2023-08-21",4);
+}catch (Exception $exception){
+    echo $exception->getMessage();
+}*/
 ?>
 <!doctype html>
 <html lang="en">
@@ -25,27 +30,6 @@ $date = Classes\Calendar::buildMonth(year: 2023,month: 6);
             </div>
         </div>
     </form>
-    <table class="m-auto text-center month">
-        <thead>
-        <tr>
-            <th>Mo</th>
-            <th>Tu</th>
-            <th>We</th>
-            <th>Th</th>
-            <th>Fr</th>
-            <th>Sa</th>
-            <th>Su</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?foreach ($date as $weeks){ $date?>
-            <tr>
-            <?foreach ($weeks as $days){ $date?>
-                <td><?=$days['day']?></td>
-            <?php }?>
-            </tr>
-        <?php }?>
-        </tbody>
 
 </body>
 </html>
