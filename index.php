@@ -1,8 +1,11 @@
 <?php
 require __DIR__ . '/vendor/autoload.php';
-//$onj2 = new \Classes\finderDateProduct("2023-08-01","2023-08-29");
+$finder = new \Classes\finderDateProduct("2023-08-16","2022-02-15");
+$dates = $finder->dateCompare();
+$deleter = new \Classes\DeleterDateProduct(3);
+if (!empty($_POST['']))
 /*try {
-    $obj = new \Classes\createDateProduct("sasda","2023-08-12","2023-08-21",4);
+    $obj = new \Classes\createDateProduct("sasda","2023-08-12","2023-08-21",2);
 }catch (Exception $exception){
     echo $exception->getMessage();
 }*/
@@ -14,11 +17,16 @@ require __DIR__ . '/vendor/autoload.php';
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="src/style.css">
-    <link rel="stylesheet" href="src/bootstrap.css">
     <title>Document</title>
+    <link rel="stylesheet" href="src/css/bootstrap.css">
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" href="src/css/jquery-ui.css">
+    <script src="src/js/jquery-3.7.0.min.js" ></script>
+    <script src="src/js/jquery-ui.min.js"></script>
+    <script src="src/js/scripts.js"></script>
 </head>
-<body>
+<body><p>Date: <input type="text" id="datepicker"></p>
+
     <form action="">
         <div class="searchBlock" >
             <input type="text" class="searchInput">
