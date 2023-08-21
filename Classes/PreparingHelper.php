@@ -29,7 +29,4 @@ class PreparingHelper
                 }else return $int;
         }else throw new \InvalidArgumentException("variable is not a integer");
     }
-    public static function upCast(\Exception $e){
-
-    }
 }

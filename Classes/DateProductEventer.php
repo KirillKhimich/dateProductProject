@@ -15,4 +15,7 @@ class DateProductEventer
     {
         $this->mediator = $mediator;
     }
+    public function exceptionTrigger($event,\Exception $exception) : void{
+        $this->mediator->notify($this,$event,$exception);
+    }
 }

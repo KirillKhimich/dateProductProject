@@ -1,10 +1,6 @@
 <?php
 require __DIR__ . '/vendor/autoload.php';
 include __DIR__ . '/requests.php';
-$component1 = new \Classes\CreatorDateProduct();
-$component2 = new \Classes\DateProductLogger();
-$mediator = new \Classes\ConcreteMediator($component1, $component2);
-$component1->exceptionTrigger("eve4nt")
 ?>
 <!doctype html>
 <html lang="en">

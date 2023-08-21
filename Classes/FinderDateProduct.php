@@ -5,14 +5,18 @@ use Carbon\CarbonInterval;
 use Carbon\CarbonPeriod;
 use Carbon\Carbon;
 use InvalidArgumentException;
-class FinderDateProduct
+class FinderDateProduct extends DateProductEventer
 {
     private array $products;
     private string $dateFrom;
     private string $dateTo;
 
-    public function __construct($dateFrom, $dateTo)
+    public function __construct()
     {
+        parent::__construct();
+
+    }
+    public function find($dateFrom,$dateTo) : array{
         try {
             $this->dateFrom = PreparingHelper::prepareDate($dateFrom);
             $this->dateTo = PreparingHelper::prepareDate($dateTo);
@@ -20,10 +24,11 @@ class FinderDateProduct
             $this->checkMinDate($this->dateFrom);
             $this->checkMaxDate($this->dateTo);
         }catch (\Exception $e) {
-            PreparingHelper::upCast($e);
+            $this->exceptionTrigger("FinderException",$e);
         }
+        $this->dateCompare();
     }
-    public function dateCompare() : array|null // comparing date and return needed products
+    private function dateCompare() : array|null // comparing date and return needed products
     {
         $period = CarbonPeriod::create($this->dateFrom, $this->dateTo);
         foreach ($this->products as $product){
