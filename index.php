@@ -1,14 +1,10 @@
 <?php
 require __DIR__ . '/vendor/autoload.php';
-$finder = new \Classes\finderDateProduct("2023-08-16","2022-02-15");
-$dates = $finder->dateCompare();
-$deleter = new \Classes\DeleterDateProduct(3);
-if (!empty($_POST['']))
-/*try {
-    $obj = new \Classes\createDateProduct("sasda","2023-08-12","2023-08-21",2);
-}catch (Exception $exception){
-    echo $exception->getMessage();
-}*/
+include __DIR__ . '/requests.php';
+$component1 = new \Classes\CreatorDateProduct();
+$component2 = new \Classes\DateProductLogger();
+$mediator = new \Classes\ConcreteMediator($component1, $component2);
+$component1->exceptionTrigger("eve4nt")
 ?>
 <!doctype html>
 <html lang="en">
@@ -25,19 +21,25 @@ if (!empty($_POST['']))
     <script src="src/js/jquery-ui.min.js"></script>
     <script src="src/js/scripts.js"></script>
 </head>
-<body><p>Date: <input type="text" id="datepicker"></p>
 
-    <form action="">
+<body>
+    <form action="" method="get">
         <div class="searchBlock" >
-            <input type="text" class="searchInput">
-            <div class="calendarBlock">
-                <p>Ivent Date</p>
-            </div>
-            <div class="searchButton">
-                <button type="submit"> Искать</button>
-            </div>
+                <input type="text" class="searchDate" readonly placeholder="dateFrom" id="searchDateFrom" name="searchDateFrom">
+                <input type="text" class="searchDate" readonly placeholder="dateTo" id="searchDateTo" name="searchDateTo">
+                <button type="submit" class="searchButton"> search</button>
         </div>
     </form>
+    <div id="result">
+        <?php if (!empty($dates)){ foreach($dates as $date){?>
+            <div class="resultsBlocks">
+                <h3 class="resultsName" ><?=$date['name']?></h3>
+                <h4 class="resultsDesc"><?=$date['description']?></h4>
+                <h5 class="resultsDates">Доступные даты: </h5>
+                <?php foreach($date['period'] as $period){?><p><?php echo $period->format('m-d'). ","; }?></p>
 
+            </div>
+        <?php }}?>
+    </div>
 </body>
 </html>

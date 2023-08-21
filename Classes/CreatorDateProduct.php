@@ -1,28 +1,44 @@
 <?php
 namespace Classes;
-class CreatorDateProduct
+class CreatorDateProduct extends DateProductEventer
 {
-    private string  $productName;
-    private string $description;
-    private string $dateFrom;
-    private string $dateTo;
-    private int $repeatRules;
+    private static string  $productName;
+    private static string $description;
+    private static string $dateFrom;
+    private static string $dateTo;
+    private static int $repeatRules;
 
-    public function __construct($productName,$dateFrom,$dateTo,$repeatRules = 7,$description = "no description"){ //preparing variables and call creating function
+    public function __construct()
+    {
+        parent::__construct();
+    }
+    public function exceptionTrigger($event,\Exception $exception) : object{
+        $this->mediator->notify($this,$event);
+        return $exception;
+    }
+
+    public function CreateProduct($productName,$dateFrom,$dateTo,$repeatRules,$description = "no description") : void{
         try {
-            $this->productName = PreparingHelper::prepareString($productName);
-            $this->dateFrom = PreparingHelper::prepareDate($dateFrom);
-            $this->dateTo = PreparingHelper::prepareDate($dateTo);
-            $this->repeatRules = PreparingHelper::prepareInt($repeatRules);
-            $this->description = PreparingHelper::prepareString($description);
-            $this->createProduct($this->productName,$this->dateFrom,$this->dateTo,$this->repeatRules,$this->description);
+            self::$productName = PreparingHelper::prepareString($productName);
+            self::$dateFrom = PreparingHelper::prepareDate($dateFrom);
+            self::$dateTo = PreparingHelper::prepareDate($dateTo);
+            self::$repeatRules = PreparingHelper::prepareInt($repeatRules);
+            self::$description = PreparingHelper::prepareString($description);
+            self::createDbProduct();
         }catch (\InvalidArgumentException $e){
-            echo $e;
+            
         }
     }
-    private function createProduct($productName,$dateFrom,$dateTo,$repeatRules,$description) : void{ // creating function(writing data in db)
+    private static function createDbProduct() : void{ // creating function(writing data in db)
         $db = Db::getInstance();
-        $db->preparedQuery("INSERT INTO `date_project_db_products` (`name`, `date_from`, `date_to`, `repeat_rules`,`description`)
-            VALUES (?,?,?,?,?)",$productName,$dateFrom,$dateTo,$repeatRules,$description);
+        $dbTableName = Db::DBTABLENAME;
+        $db->preparedQuery("INSERT INTO $dbTableName (`name`, `date_from`, `date_to`, `repeat_rules`,`description`)
+            VALUES (?,?,?,?,?)",
+        self::$productName,
+        self::$dateFrom,
+        self::$dateTo,
+        self::$repeatRules,
+        self::$description);
     }
+
 }

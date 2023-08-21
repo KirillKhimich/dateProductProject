@@ -4,6 +4,7 @@ namespace Classes;
 use Carbon\CarbonInterval;
 use Carbon\CarbonPeriod;
 use Carbon\Carbon;
+use InvalidArgumentException;
 class FinderDateProduct
 {
     private array $products;
@@ -16,13 +17,13 @@ class FinderDateProduct
             $this->dateFrom = PreparingHelper::prepareDate($dateFrom);
             $this->dateTo = PreparingHelper::prepareDate($dateTo);
             $this->products = $this->getPeriod($this->selectProducts());
-            $this->checkMinDate($dateFrom);
-            $this->checkMaxDate($dateTo);
-        }catch (\InvalidArgumentException $e) {
-            echo $e;
+            $this->checkMinDate($this->dateFrom);
+            $this->checkMaxDate($this->dateTo);
+        }catch (\Exception $e) {
+            PreparingHelper::upCast($e);
         }
     }
-    public function dateCompare() : array // comparing date and return needed products
+    public function dateCompare() : array|null // comparing date and return needed products
     {
         $period = CarbonPeriod::create($this->dateFrom, $this->dateTo);
         foreach ($this->products as $product){
@@ -33,16 +34,19 @@ class FinderDateProduct
                 }
             }
         }
-        return $neededProducts;
+        if (!empty($neededProducts)){
+            return $neededProducts;
+        }
+        return null;
     }
     private function checkMinDate($dateFrom) : void{ // checking minimal date: today
         if ($dateFrom < Carbon::today()->format('Y-m-d')){
-            throw new \InvalidArgumentException("Selected date dont have a sense, less than needed");
+            throw new InvalidArgumentException("Selected date dont have a sense, less than needed");
         }
     }
     private function checkMaxDate($dateTo) : void{ // checking maximal date: 6 month
         if (strtotime($dateTo) > strtotime(Carbon::today()->add(CarbonInterval::month(6)))){
-            throw new \InvalidArgumentException("Selected date dont have a sense, more than needed");
+            throw new InvalidArgumentException("Selected date dont have a sense, more than needed");
         }
     }
     private function getPeriod($products) : array // getting period for array "Product"
@@ -53,12 +57,17 @@ class FinderDateProduct
         return $products;
     }
 
-    private function selectProducts() : array{ // selecting products from db
+    private function selectProducts() : array|null{ // selecting products from db
         $db = Db::getInstance();
-        $result = $db->query("SELECT * FROM `date_project_db_products`");
+        $dbTableName = $db::DBTABLENAME;
+        $result = $db->query("SELECT * FROM {$dbTableName}");
         foreach ($result as $row) {
             $products[] = $row;
         }
-        return $products;
+        if (!empty($products)){
+            return $products;
+        }
+
+        throw new InvalidArgumentException("nothing products in db");
     }
 }

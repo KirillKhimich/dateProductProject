@@ -7,10 +7,12 @@ class Db
 {
     private $db;
     private static $instance;
+
+    public const DBTABLENAME = "date_project_db_products";
     private function __construct() {
         try {
             $this->db = new \mysqli('localhost', 'root', '', 'date_project_db');
-            $this->db->set_charset("utf8");
+            $this->db->set_charset('utf8');
         }catch (\Exception $e){
             echo $e->getMessage();
         }
