@@ -4,18 +4,17 @@ namespace Classes;
 
 class DateProductLogger extends DateProductEventer
 {
-    private $filename;
+    private string $filename;
 
     public function __construct($filename)
     {
-        parent::__construct();
         $this->filename = $filename;
         if (file_exists($this->filename)) {
             unlink($this->filename);
         }
     }
 
-    public function update(string $event,object $data)
+    public function update(string $event,object $data) : void
     {
         $data = (string)$data;
         $entry = date("Y-m-d H:i:s") . ": '$event' with data '" .json_encode($data) . "'\n";

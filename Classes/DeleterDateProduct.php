@@ -2,21 +2,15 @@
 
 namespace Classes;
 
-class DeleterDateProduct
+class DeleterDateProduct extends DateProductEventer
 {
-    private static int $id;
-    private static object $db;
-        public static function deleteProduct($id){
+        public static function deleteProduct(int $id) : void{ // delete product by $id
             try {
-                self::$id = PreparingHelper::prepareInt($id);
-                self::deleteDbProduct();
+                $id = PreparingHelper::prepareInt($id);
+                $dbTableName = Db::DBTABLENAME;
+                Db::getInstance()->preparedQuery("DELETE FROM $dbTableName WHERE $dbTableName.`id` = ?",$id);
             }catch (\InvalidArgumentException $exception){
                 echo $exception;
             }
-        }
-        private static function deleteDbProduct() : void{
-            self::$db = Db::getInstance();
-            $dbTableName = Db::DBTABLENAME;
-            self::$db->preparedQuery("DELETE FROM `date_project_db_products` WHERE $dbTableName.`id` = ?",self::$id);
         }
 }

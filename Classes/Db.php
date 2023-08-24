@@ -1,7 +1,6 @@
 <?php
 
 namespace Classes;
-use mysql_xdevapi\Exception;
 
 class Db
 {
@@ -30,8 +29,7 @@ class Db
             $stmt->execute($arrayArgs);
     }
     public function query($query) : object{
-        $stmt = $this->db->query($query);
-        return $stmt;
+        return $this->db->query($query);
     }
 
     public function __wakeup() : void{

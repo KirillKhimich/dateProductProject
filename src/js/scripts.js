@@ -3,6 +3,7 @@ $( function() {
         from = $( "#searchDateFrom" )
             .datepicker({
                 showButtonPanel: true,
+                minDate:0,
                 numberOfMonths: 2,
                 maxDate: "+6m",
                 dateFormat : dateFormat

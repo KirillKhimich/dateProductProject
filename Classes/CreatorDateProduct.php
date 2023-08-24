@@ -2,7 +2,7 @@
 namespace Classes;
 class CreatorDateProduct extends DateProductEventer
 {
-    private string  $productName;
+    private string $productName;
     private string $description;
     private string $dateFrom;
     private string $dateTo;
@@ -10,10 +10,9 @@ class CreatorDateProduct extends DateProductEventer
 
     public function __construct()
     {
-        parent::__construct();
     }
 
-    public function CreateProduct($productName,$dateFrom,$dateTo,$repeatRules,$description = "no description") : void{
+    public function CreateProduct($productName,$dateFrom,$dateTo,$repeatRules,$description = "no description") : void{ //
         try {
             $this->productName = PreparingHelper::prepareString($productName);
             $this->dateFrom = PreparingHelper::prepareDate($dateFrom);
@@ -26,9 +25,8 @@ class CreatorDateProduct extends DateProductEventer
         }
     }
     private function createDbProduct() : void{ // creating function(writing data in db)
-        $db = Db::getInstance();
         $dbTableName = Db::DBTABLENAME;
-        $db->preparedQuery("INSERT INTO $dbTableName (`name`, `date_from`, `date_to`, `repeat_rules`,`description`)
+        Db::getInstance()->preparedQuery("INSERT INTO $dbTableName (`name`, `date_from`, `date_to`, `repeat_rules`,`description`)
             VALUES (?,?,?,?,?)",
             $this->productName,
             $this->dateFrom,

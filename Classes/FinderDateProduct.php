@@ -5,18 +5,16 @@ use Carbon\CarbonInterval;
 use Carbon\CarbonPeriod;
 use Carbon\Carbon;
 use InvalidArgumentException;
+
+/**
+ *
+ */
 class FinderDateProduct extends DateProductEventer
 {
     private array $products;
     private string $dateFrom;
     private string $dateTo;
-
-    public function __construct()
-    {
-        parent::__construct();
-
-    }
-    public function find($dateFrom,$dateTo) : array{
+    public function __construct($dateFrom,$dateTo){
         try {
             $this->dateFrom = PreparingHelper::prepareDate($dateFrom);
             $this->dateTo = PreparingHelper::prepareDate($dateTo);
@@ -28,7 +26,7 @@ class FinderDateProduct extends DateProductEventer
         }
         $this->dateCompare();
     }
-    private function dateCompare() : array|null // comparing date and return needed products
+    public function dateCompare() : array // comparing date and return needed products
     {
         $period = CarbonPeriod::create($this->dateFrom, $this->dateTo);
         foreach ($this->products as $product){
@@ -39,10 +37,8 @@ class FinderDateProduct extends DateProductEventer
                 }
             }
         }
-        if (!empty($neededProducts)){
+
             return $neededProducts;
-        }
-        return null;
     }
     private function checkMinDate($dateFrom) : void{ // checking minimal date: today
         if ($dateFrom < Carbon::today()->format('Y-m-d')){
@@ -63,9 +59,8 @@ class FinderDateProduct extends DateProductEventer
     }
 
     private function selectProducts() : array|null{ // selecting products from db
-        $db = Db::getInstance();
-        $dbTableName = $db::DBTABLENAME;
-        $result = $db->query("SELECT * FROM {$dbTableName}");
+        $dbTableName = Db::DBTABLENAME;
+        $result = Db::getInstance()->query("SELECT * FROM {$dbTableName}");
         foreach ($result as $row) {
             $products[] = $row;
         }
